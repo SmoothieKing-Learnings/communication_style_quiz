@@ -20,7 +20,7 @@ export default function WelcomeScreen({ onStart }) {
         alt="Smoothie King Logo"
         className="w-24 h-auto mb-5 animate-welcome-logo"
       />
-      <h1 className="font-heading text-2xl md:text-4xl font-extrabold text-quiz-primary mb-4 tracking-tight animate-welcome-headline">
+      <h1 className="font-heading text-3xl md:text-5xl font-extrabold text-quiz-primary mb-4 tracking-tight animate-welcome-headline">
         Discover Your Communication Style
       </h1>
       <div
@@ -37,10 +37,10 @@ export default function WelcomeScreen({ onStart }) {
         transition-all for hover / focus / active without colliding with the
         rise-in keyframe.
       */}
-      <div className="animate-welcome-cta">
+      <div className="animate-welcome-cta w-full">
         <button
           onClick={onStart}
-          className="min-h-[44px] min-w-[44px] px-8 py-4 bg-quiz-primary text-quiz-bg rounded-xl font-bold text-base hover:bg-brand-dark focus:outline-none focus:ring-4 focus:ring-quiz-primary/50 transition-all shadow-lg hover:shadow-xl active:scale-95"
+          className="w-full min-h-[44px] px-8 py-4 bg-quiz-primary text-quiz-bg rounded-xl font-bold text-base hover:bg-brand-dark focus:outline-none focus:ring-4 focus:ring-quiz-primary/50 transition-all shadow-lg hover:shadow-xl active:scale-95"
           aria-label="Start the Communication Style Quiz"
         >
           Let's Blend!

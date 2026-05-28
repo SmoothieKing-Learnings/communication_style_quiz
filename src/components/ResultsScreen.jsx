@@ -117,45 +117,97 @@ export default function ResultsScreen({ resultsData, onRestart }) {
                 <strong className="text-quiz-text">Mantra:</strong> {style.mantra}
               </div>
 
-              <div className="flex flex-col gap-3">
-                <div className="flex gap-3">
-                  <strong className="w-28 flex-shrink-0 text-base uppercase text-green-800">Strengths</strong>
-                  <ul className="list-disc pl-5 text-xs text-quiz-text/80 space-y-1 flex-1">
-                    {style.strengths.map((str, i) => <li key={i}>{str}</li>)}
-                  </ul>
-                </div>
+              {/* SUMMARY ↔ FULL DESCRIPTION SWAP-COLLAPSE
+                  The summary (Strengths / Blind Spots) and the long-form
+                  expansion (Where You Might Shine / Struggle) swap in
+                  lockstep. CSS-only pattern: overflow-hidden + transitioned
+                  max-height + opacity + visibility, with inverted boolean
+                  on each block.
 
-                <div className="flex gap-3">
-                  <strong className="w-28 flex-shrink-0 text-base uppercase text-quiz-primary">Blind Spots</strong>
-                  <ul className="list-disc pl-5 text-xs text-quiz-text/80 space-y-1 flex-1">
-                    {style.blindSpots.map((bs, i) => <li key={i}>{bs}</li>)}
-                  </ul>
-                </div>
-              </div>
+                  visibility is the load-bearing detail. Including it in the
+                  transition-property list with a duration changes its
+                  timing: going visible → switches at the START so opacity
+                  can fade in over a rendered element; going hidden →
+                  switch deferred to the END so opacity fully fades out
+                  before the element actually becomes hidden. This is also
+                  what keeps the collapsed block out of the Tab order.
 
-              {/* FULL DESCRIPTION ACCORDION */}
-              {(style.strengthsDetailed?.length || style.blindSpotsDetailed?.length) && (() => {
-                const isOpen = !!expandedStyleIds[style.id];
+                  Ceilings (max-h-[600px], max-h-[1200px]) are *ceilings*,
+                  not targets — the rendered height is whatever the content
+                  needs. Pick a value comfortably above the content. */}
+              {(() => {
+                const hasDetailed = !!(style.strengthsDetailed?.length || style.blindSpotsDetailed?.length);
+                const isOpen = hasDetailed && !!expandedStyleIds[style.id];
                 const panelId = `style-details-${style.id}`;
-                return (
-                  <div className="mt-4 border-t border-orange-100 pt-3">
-                    <button
-                      type="button"
-                      onClick={() => toggleExpanded(style.id)}
-                      aria-expanded={isOpen}
-                      aria-controls={panelId}
-                      className="w-full flex items-center justify-between gap-2 text-left text-sm font-bold text-quiz-primary hover:text-brand-dark focus:outline-none focus:ring-2 focus:ring-quiz-primary/40 rounded-md px-1 py-1 transition-colors"
-                    >
-                      <span>{isOpen ? 'Hide full description' : 'Show full description'}</span>
-                      <ChevronDown
-                        size={18}
-                        className={`flex-shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-                        aria-hidden="true"
-                      />
-                    </button>
 
-                    {isOpen && (
-                      <div id={panelId} className="mt-4 flex flex-col gap-3 animate-fade-in">
+                // Summary content reused in both the no-detailed and
+                // swap-enabled branches so there's a single source of truth.
+                const summary = (
+                  <div className="flex flex-col gap-3">
+                    <div className="flex gap-3">
+                      <strong className="w-28 flex-shrink-0 text-base uppercase text-green-800">Strengths</strong>
+                      <ul className="list-disc pl-5 text-xs text-quiz-text/80 space-y-1 flex-1">
+                        {style.strengths.map((str, i) => <li key={i}>{str}</li>)}
+                      </ul>
+                    </div>
+                    <div className="flex gap-3">
+                      <strong className="w-28 flex-shrink-0 text-base uppercase text-quiz-primary">Blind Spots</strong>
+                      <ul className="list-disc pl-5 text-xs text-quiz-text/80 space-y-1 flex-1">
+                        {style.blindSpots.map((bs, i) => <li key={i}>{bs}</li>)}
+                      </ul>
+                    </div>
+                  </div>
+                );
+
+                // No detailed copy → render the summary plainly. No swap,
+                // no toggle button needed.
+                if (!hasDetailed) {
+                  return summary;
+                }
+
+                return (
+                  <>
+                    {/* SUMMARY — visible when accordion is closed */}
+                    <div
+                      className={`overflow-hidden transition-[max-height,opacity,visibility] duration-300 ease-out
+                        ${!isOpen
+                          ? 'max-h-[600px] opacity-100 visible'
+                          : 'max-h-0 opacity-0 invisible'
+                        }`}
+                      aria-hidden={isOpen}
+                    >
+                      {summary}
+                    </div>
+
+                    {/* TOGGLE BUTTON */}
+                    <div className="mt-4 border-t border-orange-100 pt-3">
+                      <button
+                        type="button"
+                        onClick={() => toggleExpanded(style.id)}
+                        aria-expanded={isOpen}
+                        aria-controls={panelId}
+                        className="w-full flex items-center justify-between gap-2 text-left text-sm font-bold text-quiz-primary hover:text-brand-dark focus:outline-none focus:ring-2 focus:ring-quiz-primary/40 rounded-md px-1 py-1 transition-colors"
+                      >
+                        <span>{isOpen ? 'Hide full description' : 'Show full description'}</span>
+                        <ChevronDown
+                          size={18}
+                          className={`flex-shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                          aria-hidden="true"
+                        />
+                      </button>
+                    </div>
+
+                    {/* FULL DESCRIPTION — visible when accordion is open */}
+                    <div
+                      id={panelId}
+                      className={`overflow-hidden transition-[max-height,opacity,visibility] duration-300 ease-out
+                        ${isOpen
+                          ? 'max-h-[1200px] opacity-100 visible'
+                          : 'max-h-0 opacity-0 invisible'
+                        }`}
+                      aria-hidden={!isOpen}
+                    >
+                      <div className="mt-4 flex flex-col gap-3">
                         <div className="p-3">
                           <strong className="block text-green-800 mb-3 text-base uppercase">Where You Might Shine</strong>
                           <ul className="space-y-3 text-xs text-quiz-text/80">
@@ -180,8 +232,8 @@ export default function ResultsScreen({ resultsData, onRestart }) {
                           </ul>
                         </div>
                       </div>
-                    )}
-                  </div>
+                    </div>
+                  </>
                 );
               })()}
             </div>
