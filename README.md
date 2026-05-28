@@ -1,151 +1,99 @@
-# Communication Style Quiz Prototype
+# Communication Style Quiz
 
-A modular, single-page React application for a "Communication Style Quiz". It emphasizes a clean project structure through reusable utility functions ("skills") and strict review protocols for UI and WCAG compliance. This document tracks the initial system requirements, project planning, and updates.
+A short, four-style communication self-assessment built for Smoothie King store leaders and team members. Hosted by **SmoothieKing-Learnings** and delivered as a static, single-page web app.
 
-> This iteration is forked from the prior Leadership Style Quiz prototype. The questions and style definitions in `src/data/` remain as placeholders until new communication-focused content is dropped in.
-
-## Mission & Design Constraints
-**Goal**: Build a fully client-side React app without a backend database.
-
-### Strict Design & Styling Rules
-Configured via Tailwind CSS with a warm palette constraint:
-- **Background Color**: `#FFF9EF`
-- **Primary Action Color**: `#930018` (Buttons, progress bars)
-- **Default Text Color**: `#40000F`
-- **WCAG Constraint**: Whenever text overlaps `#930018`, text must be `#FFF9EF` to pass contrast standards. Otherwise, default to `#40000F`.
-- **Chart Colors**: Four distinct complementary colors (`#F4A261`, `#E76F51`, `#2A9D8F`, `#E9C46A`) assigned structurally in the codebase for easy editing.
-
-### Deployment Context
-- Configured specifically for **GitHub Pages** (via standard URL like `username.github.io/Communication_Quiz_Prototype`).
-- **Base Pathing**: Setup in `vite.config.js` to ensure assets avoid 404 errors.
-- **Routing**: Employs static React state-based rendering (`currentScreen`) to completely bypass `react-router-dom` 404 errors standard to static site refreshes.
-
-## Tech Stack
-- **React (Vite Base)**
-- **Tailwind CSS** (for styling)
-- **Recharts** (for the donut chart visualization)
-- **html2canvas** (for capturing the results screen as an image)
-- **lucide-react** (for simple UI icons)
-- **@axe-core/react** (for dev-time accessibility auditing)
-- **Vitest & React Testing Library** (Unit and component testing)
+**Live site:** https://smoothieking-learnings.github.io/communication_style_quiz/
 
 ---
 
-## Core Utilities ("Skills") Workflow
+## What it does
 
-### Skill 1: Deployment & Hosting Config
-State-based rendering handling navigation between Welcome, Quiz, and Result screens natively without an external DOM router.
+The quiz walks a team member through 10 scenarios pulled from real store life — a wrong-milk remake, coaching an enhancer ask, a closing-shift slump — and surfaces their primary Communication Style across four archetypes. Results include the style's priority, mantra, strengths, blind spots, and a downloadable / shareable summary image. When two or more styles tie for the top score, the result is presented as a "Hybrid Communicator" with all top styles shown side-by-side.
 
-### Skill 2: Data Processing (`calculateResults.js`)
-A pure utility function that takes the user's answers array, tallies scores for the 4 styles, calculates the percentage, and securely returns an array of the top styles cleanly to handle exact numeric "Ties".
+## The four Communication Styles
 
-### Skill 3: Export & Share (`exportAndShare.js`)
-Utility wrapper that bridges `html2canvas` to process a DOM ID into an image blob, attempting `navigator.share()` (Web Share API) natively with an automated fallback to gracefully download the `.png` if the browser does not support the Web Share standard.
-
-### Skill 4: WCAG & Accessibility Engine (`a11yUtils.js`)
-- **Announcer**: Verbally calls route/step changes to Screen Readers globally (`"Question 2 of 3: ..."`).
-- **Keyboard Navigation**: Enforces explicit Tab formatting and `"Enter"` or `"Space"` firing on Answer buttons.
-- **Auditor**: Development mode runs `@axe-core/react` instantly mapping structural violation logs.
-
-### Skill 5: UI & Responsive Review Protocol (`LayoutWrapper.jsx`)
-- Master Layout Wrapper enforcing mobile-first CSS architecture.
-- Touch Target Sizes: Minimum `44x44px` enforced across all selectable objects (iOS/Android native standard).
-- Desktop Constraint: Enforces a maximum width (`max-w-2xl`) preventing ugly horizontal stretch lines.
-
----
-
-## Data Structure
-
-**The 4 Communication Styles** are defined in `src/data/stylesData.js` and matched to `styleId`s on each option in `src/data/questionsData.js`. The current entries are placeholders inherited from the previous iteration — replace them with the new communication-focused styles, questions, strengths, and blind spots.
-
-When updating content, keep these in sync:
-- `STYLES` array in `src/data/stylesData.js` (one entry per style).
-- `STYLE_COLORS` map in the same file (one color per style id).
-- `styleId` on each option in `src/data/questionsData.js` must match an `id` in `STYLES`.
-
----
-
-## Getting Started
-
-1. **Install dependencies:** `npm install`
-2. **Run Dev Server:** `npm run dev`
-3. **Run Testing Suite:** `npm run test`
-4. **Build Production Bundle:** `npm run build`
-
-> _Note: For GitHub Pages deployment, execute `npm run build` and follow standard GitHub actions configuration protocols to host the generated `/dist` build output statically._
-
----
-
-## Iteration Plan: Leadership → Communication Style Quiz
-
-This section is the working plan for converting the inherited Leadership Style scaffolding into a dedicated Communication Style Quiz. Update it as decisions are made; treat it as the source of truth for in-flight work.
-
-### Phase 0 — Scaffolding & Rename ✅ Complete
-The structural rename has already been applied. No content yet — only labels, paths, and metadata.
-
-- [x] App title (`index.html`) → "Communication Style Quiz"
-- [x] Welcome heading + description + CTA aria-label → communication-focused copy
-- [x] Results "Hybrid Leader" → "Hybrid Communicator"
-- [x] Share filename + Web Share `title`/`text` → communication-focused
-- [x] `package.json` name → `communication-quiz-prototype`
-- [x] Vite `base` → `/Communication_Quiz_Prototype/`
-- [x] README rewritten; comments updated; agent skill folder renamed
-- [x] Placeholder notes added to `questionsData.js` and `stylesData.js`
-
-### Phase 1 — Define the 4 Communication Styles ✅ Complete
-
-The 4 styles live in `src/data/stylesData.js`:
-
-| `id` | Display name | Subtitle | Letter |
+| Letter | Style | Priority | Mantra |
 | --- | --- | --- | --- |
-| `direct` | The Just the Facts Communicator | Direct | A |
-| `enthusiastic` | The Cheerleader Communicator | Enthusiastic | B |
-| `collaborative` | The Kindness Communicator | Collaborative | C |
-| `precise` | The Detailed Standards Communicator | Precise | D |
+| A | The Direct Communicator | efficiency | clear is efficient |
+| B | The Enthusiastic Communicator | engagement | energy is contagious |
+| C | The Collaborative Communicator | connection | lead by listening |
+| D | The Precise Communicator | accuracy | the details matter |
 
-**Still to review (placeholder content, inferred):** `focus`, `strengths`, and `blindSpots` for each style were filled in based on common archetype descriptors. Replace with stakeholder-approved copy when available.
+Each style's full strengths, blind spots, and detailed descriptions live in [src/data/stylesData.js](src/data/stylesData.js). The question set lives in [src/data/questionsData.js](src/data/questionsData.js).
 
-### Phase 2 — Author the Question Set ✅ Complete
+## Design system
 
-10 questions are in `src/data/questionsData.js`, sourced from `communication_style_quiz.md`. Each question has exactly 4 options, one per style id, with the consistent letter→style mapping above (A=direct, B=enthusiastic, C=collaborative, D=precise).
+The quiz uses a warm, Smoothie King-aligned palette enforced through Tailwind:
 
-If new questions are added, follow the same pattern: `{ id, text, options: [{ id, text, styleId }] }`, and ensure every `styleId` matches one of the 4 ids in `stylesData.js`. Tests in `src/skills/calculateResults.test.js` already reference the new ids.
+- **Background:** `#FFF9EF`
+- **Primary action:** `#930018` (buttons, progress bars)
+- **Body text:** `#40000F` — switched to `#FFF9EF` whenever text sits on the primary action color, to satisfy WCAG contrast
+- **Chart palette:** `#F4A261`, `#E76F51`, `#2A9D8F`, `#E9C46A` (one per style)
 
-### Phase 3 — Visual & Brand Pass ⏳ Pending Direction
+## Accessibility
 
-- [ ] Logo: confirm whether `src/assets/logo.png` / `logo-light.png` stay or are swapped.
-- [ ] Color palette: decide whether warm palette (`#FFF9EF`, `#930018`, `#40000F`) carries over or shifts for the communication branding. Defined in `tailwind.config.js` and `src/index.css`.
-- [ ] Welcome copy tone: confirm "Let's Blend!" CTA still fits, or swap for a communication-flavored verb.
-- [ ] Results screen "Hybrid Communicator" tie copy: confirm phrasing.
+The quiz ships mobile-first with WCAG-compliant contrast on every screen, ≥44×44px touch targets, full keyboard navigation (Tab to focus, Enter/Space to select), and screen-reader announcements at each question and on the final result. `@axe-core/react` runs in development for live structural auditing.
 
-### Phase 4 — Deployment Wiring ⏳ Pending
+## Tech stack
 
-- [ ] Confirm GitHub Pages repo path. If repo is renamed, update `base` in `vite.config.js` to match the new repo slug.
-- [ ] Update GitHub Actions workflow (in `.github/`) if the repo or branch changes.
-- [ ] Verify built `/dist` loads with the new base path before publishing.
+- **React 18** on Vite
+- **Tailwind CSS** for styling
+- **Recharts** for the donut visualization on the results screen
+- **html2canvas** for the share-as-image flow, with Web Share API and a graceful download fallback
+- **lucide-react** for icons
+- **@axe-core/react** for dev-time accessibility auditing
+- **Vitest + React Testing Library** for unit and component tests
 
-### Phase 5 — QA Checklist (before each release)
+Routing is handled with simple React state (`currentScreen`) rather than `react-router-dom`, which keeps the app compatible with GitHub Pages without 404s on refresh.
 
-- [ ] `npm run test` passes (update `calculateResults.test.js` if style ids changed).
-- [ ] `npm run lint` clean.
-- [ ] Manual run of the full quiz: every option selectable, Back works, Continue gates correctly on the last question.
-- [ ] Donut chart renders with 4 colors and tooltips show point counts.
-- [ ] Score breakdown sorted high → low with correct max possible.
-- [ ] Tie path: force a tie and confirm "Hybrid Communicator" copy + multiple top style cards render.
-- [ ] Share button: capture image and verify download fallback in a non-Web-Share browser.
-- [ ] Keyboard-only run-through: Tab to each option, Enter/Space selects, focus rings visible.
-- [ ] Screen reader announces "Question N of M" and the final result.
-- [ ] axe-core dev console clean (no violations on welcome, quiz, results).
-- [ ] Mobile viewport (≤375px): touch targets ≥44px, no horizontal scroll, chart legible.
+## Local development
 
-### Files most likely to change per iteration
+```bash
+npm install
+npm run dev      # vite dev server
+npm run test     # vitest
+npm run lint     # eslint
+npm run build    # production bundle to /dist
+npm run preview  # serve the built bundle
+```
 
-| File | What changes |
-| --- | --- |
-| `src/data/stylesData.js` | Style definitions, colors |
-| `src/data/questionsData.js` | Question prompts, options, `styleId` mapping |
-| `src/components/WelcomeScreen.jsx` | Welcome copy + CTA |
-| `src/components/ResultsScreen.jsx` | Tie copy, results layout tweaks |
-| `tailwind.config.js` / `src/index.css` | Palette changes |
-| `vite.config.js` | `base` path on repo rename |
-| `src/skills/calculateResults.test.js` | Test fixtures if style ids change |
+The Vite `base` is set to `/communication_style_quiz/` in [vite.config.js](vite.config.js) to match the GitHub Pages path.
+
+## Deployment
+
+The site is published to GitHub Pages automatically on every push to `main` via [.github/workflows/deploy.yml](.github/workflows/deploy.yml). The workflow:
+
+1. Checks out the repo and sets up Node 20 with npm cache
+2. Runs `npm ci` and `npm run build`
+3. Uploads `/dist` as the Pages artifact and deploys via `actions/deploy-pages`
+
+Manual runs are available from the Actions tab using `workflow_dispatch`. Pages source is configured to **GitHub Actions** in repo settings.
+
+## Embedding
+
+The quiz is designed to embed cleanly inside Articulate Rise 360 or any iframe host. The `?embed=1` query parameter trims chrome for embedded contexts. See [IFRAME_EMBED.md](IFRAME_EMBED.md) for ready-to-paste snippets and sizing guidance.
+
+## Project layout
+
+```
+src/
+  App.jsx                  screen-state router (Welcome / Quiz / Results)
+  components/
+    WelcomeScreen.jsx
+    QuizScreen.jsx
+    ResultsScreen.jsx
+    LayoutWrapper.jsx      mobile-first wrapper, max-w-2xl
+    ProgressBar.jsx
+  data/
+    stylesData.js          4 styles, colors, strengths, blind spots
+    questionsData.js       10 questions, 4 options each
+  skills/
+    calculateResults.js    scoring and tie handling
+    exportAndShare.js      html2canvas → Web Share / download
+    a11yUtils.js           announcer, keyboard handling, axe auditor
+    embed.js               iframe-host helpers
+```
+
+## Maintained by
+
+The **SmoothieKing-Learnings** team. Issues and contributions are welcome at the [GitHub repository](https://github.com/SmoothieKing-Learnings/communication_style_quiz).
