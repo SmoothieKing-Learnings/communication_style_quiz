@@ -80,11 +80,54 @@ html.embed-mode {
   animation: question-slide-in-backward 280ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/*
+ * Tie-breaker modal entrance — spring-y scale-in for attention.
+ * Backdrop fades in over 200ms; the card pops with a slight overshoot.
+ */
+@keyframes tie-breaker-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes tie-breaker-card-in {
+  0%   { opacity: 0; transform: scale(0.92) translateY(8px); }
+  60%  { opacity: 1; transform: scale(1.02) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.animate-tie-backdrop {
+  animation: tie-breaker-backdrop-in 200ms ease-out;
+}
+
+.animate-tie-card {
+  animation: tie-breaker-card-in 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/*
+ * Results stacked-bar entrance — the bar draws in from the left edge,
+ * pulling its segments along with it. Outer scaleX(0)→scaleX(1) with a
+ * left transform-origin means everything inside the container (each
+ * colored segment) appears to grow rightward together, like a fill.
+ * Small delay so the user registers the page before the bar reveals.
+ */
+@keyframes bar-fill-in {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+.animate-bar-fill {
+  animation: bar-fill-in 700ms cubic-bezier(0.22, 1, 0.36, 1) 150ms both;
+  transform-origin: left center;
+}
+
 /* Honor reduced-motion preferences. */
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in,
   .animate-question-forward,
-  .animate-question-backward {
+  .animate-question-backward,
+  .animate-tie-backdrop,
+  .animate-tie-card,
+  .animate-bar-fill {
     animation: none;
   }
 }
