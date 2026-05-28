@@ -36,7 +36,7 @@ export default function ResultsScreen({ resultsData, onRestart }) {
     <div className="w-full animate-fade-in flex flex-col items-center">
       
       {/* CAPTURE AREA */}
-      <div id="result-capture-area" className="w-full flex flex-col items-center p-2 sm:p-4 md:p-6 rounded-2xl">
+      <div id="result-capture-area" className="w-full flex flex-col items-center p-2 rounded-2xl">
         <h2 className="text-xs font-extrabold text-quiz-primary uppercase tracking-widest mb-2">
           Your Results
         </h2>
@@ -88,11 +88,11 @@ export default function ResultsScreen({ resultsData, onRestart }) {
         </div>
 
         {/* STYLE DESCRIPTIONS */}
-        <div className="w-full flex flex-col gap-3 sm:gap-6 mt-4 sm:mt-6 text-left">
+        <div className="w-full flex flex-col gap-3 mt-3 text-left">
           {topStyles.map((style) => {
             const scored = allScores.find(s => s.id === style.id);
             return (
-              <div key={style.id} className="bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-orange-50 overflow-hidden">
+              <div key={style.id} className="bg-white p-3 rounded-2xl shadow-sm border border-orange-50 overflow-hidden">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-1">
                   <h3 className="text-xl sm:text-2xl font-bold text-quiz-text flex items-start gap-3 min-w-0 break-words">
                     <span className="w-4 h-4 mt-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: style.color }}></span>
@@ -114,14 +114,14 @@ export default function ResultsScreen({ resultsData, onRestart }) {
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
-                  <div className="bg-green-50/50 p-3 sm:p-4 rounded-xl border border-green-100">
+                  <div className="bg-green-50/50 p-3 rounded-xl border border-green-100">
                     <strong className="block text-green-800 mb-2 text-xs uppercase">Strengths</strong>
                     <ul className="list-disc pl-5 text-xs text-quiz-text/80 space-y-1">
                       {style.strengths.map((str, i) => <li key={i}>{str}</li>)}
                     </ul>
                   </div>
 
-                  <div className="bg-red-50/50 p-3 sm:p-4 rounded-xl border border-red-100">
+                  <div className="bg-red-50/50 p-3 rounded-xl border border-red-100">
                     <strong className="block text-quiz-primary mb-2 text-xs uppercase">Blind Spots</strong>
                     <ul className="list-disc pl-5 text-xs text-quiz-text/80 space-y-1">
                       {style.blindSpots.map((bs, i) => <li key={i}>{bs}</li>)}
@@ -152,7 +152,7 @@ export default function ResultsScreen({ resultsData, onRestart }) {
 
                       {isOpen && (
                         <div id={panelId} className="mt-4 grid md:grid-cols-2 gap-4 animate-fade-in">
-                          <div className="bg-green-50/50 p-3 sm:p-4 rounded-xl border border-green-100">
+                          <div className="bg-green-50/50 p-3 rounded-xl border border-green-100">
                             <strong className="block text-green-800 mb-3 text-xs uppercase">Where You Might Shine</strong>
                             <ul className="space-y-3 text-xs text-quiz-text/85">
                               {style.strengthsDetailed.map((item, i) => (
@@ -164,7 +164,7 @@ export default function ResultsScreen({ resultsData, onRestart }) {
                             </ul>
                           </div>
 
-                          <div className="bg-red-50/50 p-3 sm:p-4 rounded-xl border border-red-100">
+                          <div className="bg-red-50/50 p-3 rounded-xl border border-red-100">
                             <strong className="block text-quiz-primary mb-3 text-xs uppercase">Where You Might Struggle</strong>
                             <ul className="space-y-3 text-xs text-quiz-text/85">
                               {style.blindSpotsDetailed.map((item, i) => (
@@ -187,7 +187,7 @@ export default function ResultsScreen({ resultsData, onRestart }) {
       </div>
 
       {/* ACTION BUTTONS (Outside Capture Area) */}
-      <div className="w-full flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-6 sm:mt-10">
+      <div className="w-full flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-4 sm:mt-6">
         <button
           onClick={handleShare}
           className="flex-1 max-w-xs min-h-[44px] flex items-center justify-center gap-2 px-6 py-4 bg-quiz-primary text-[#FFF9EF] rounded-xl font-bold text-base hover:bg-[#7a0014] focus:outline-none focus:ring-4 focus:ring-quiz-primary/50 transition-all shadow-md active:scale-95"
