@@ -6,16 +6,18 @@ import ProgressBar from './ProgressBar';
 describe('ProgressBar', () => {
   it('renders the correct progressive text', () => {
     render(<ProgressBar current={2} total={5} />);
-    
+
     const textElement = screen.getByText(/Question 2 of 5/i);
     expect(textElement).toBeInTheDocument();
   });
 
-  it('calculates the visual width percentage correctly', () => {
+  it('renders the bar fill at the correct width percentage', () => {
     // 2/5 = 40%
-    render(<ProgressBar current={2} total={5} />);
-    
-    const percentageText = screen.getByText('40%');
-    expect(percentageText).toBeInTheDocument();
+    const { container } = render(<ProgressBar current={2} total={5} />);
+
+    // The filled inner div is the only element with an inline width style
+    const fill = container.querySelector('[style*="width"]');
+    expect(fill).toBeInTheDocument();
+    expect(fill).toHaveStyle({ width: '40%' });
   });
 });
