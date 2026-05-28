@@ -10,7 +10,7 @@ export default function ProgressBar({ current, total }) {
       <span className="text-xs font-bold text-quiz-primary uppercase tracking-wider whitespace-nowrap">
         Question {current} of {total}
       </span>
-      <div className="flex-1 h-2 bg-orange-100 rounded-full overflow-hidden">
+      <div className="flex-1 h-2 bg-surface-track rounded-full overflow-hidden">
         <div
           className="h-full bg-quiz-primary rounded-full transition-all duration-500 ease-out"
           style={{ width: `${percentage}%` }}

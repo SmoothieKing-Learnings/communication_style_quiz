@@ -79,7 +79,7 @@ export default function ResultsScreen({ resultsData, onRestart }) {
         </div>
 
         {/* LEGEND — color swatch + subtitle + percentage, horizontal wrap */}
-        <div className="w-full flex flex-wrap justify-center gap-x-4 gap-y-2 mt-2 mb-8 text-xs sm:text-sm">
+        <div className="w-full flex flex-wrap justify-center gap-x-4 gap-y-2 mt-2 mb-8 text-[11px] sm:text-xs">
           {chartData.map((s) => (
             <div key={s.name} className="flex items-center gap-1.5">
               <span
