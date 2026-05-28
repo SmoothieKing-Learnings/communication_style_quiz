@@ -11,7 +11,7 @@ Paste into a Rise 360 **Embed block** (not the Custom Code Block — they're dif
 ### Recommended (single fixed height, compromise between mobile and desktop)
 
 ```html
-<iframe src="https://daechan-ot.github.io/communication_style_quiz/?embed=1" width="100%" height="900" style="border:0; display:block; width:100%;" scrolling="auto"></iframe>
+<iframe src="https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1" width="100%" height="900" style="border:0; display:block; width:100%;" scrolling="auto"></iframe>
 ```
 
 900px is the compromise. Tune it:
@@ -22,7 +22,7 @@ Paste into a Rise 360 **Embed block** (not the Custom Code Block — they're dif
 ### Dynamic height that adapts to real device width
 
 ```html
-<iframe src="https://daechan-ot.github.io/communication_style_quiz/?embed=1" style="border:0; display:block; width:100%; height:max(700px, 1500px - 70vw);" scrolling="auto"></iframe>
+<iframe src="https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1" style="border:0; display:block; width:100%; height:max(700px, 1500px - 70vw);" scrolling="auto"></iframe>
 ```
 
 `height:max(700px, 1500px - 70vw)` means: at least 700px, and gets taller as the viewport gets narrower. On a real phone (~400px wide), iframe ≈ 1220px. On a real desktop (~1400px wide), iframe ≈ 700px. **Caveat:** does not respond to Rise's mobile preview pane (Rise's mobile preview is a visual clip, not a real viewport change). Only takes effect on actual devices.
@@ -33,12 +33,12 @@ If Rise's Embed block has a "Hide on mobile" / "Hide on desktop" toggle (check t
 
 ```html
 <!-- Desktop block (set "Hide on mobile" in Rise) -->
-<iframe src="https://daechan-ot.github.io/communication_style_quiz/?embed=1" width="100%" height="700" style="border:0; display:block; width:100%;" scrolling="auto"></iframe>
+<iframe src="https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1" width="100%" height="700" style="border:0; display:block; width:100%;" scrolling="auto"></iframe>
 ```
 
 ```html
 <!-- Mobile block (set "Hide on desktop" in Rise) -->
-<iframe src="https://daechan-ot.github.io/communication_style_quiz/?embed=1" width="100%" height="1300" style="border:0; display:block; width:100%;" scrolling="auto"></iframe>
+<iframe src="https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1" width="100%" height="1300" style="border:0; display:block; width:100%;" scrolling="auto"></iframe>
 ```
 
 Each device gets the height that fits it. No compromise.
@@ -140,7 +140,7 @@ Iframes don't have a "size to content" mode. The `height` attribute is fixed unl
 Rise's mobile preview pane is misleading for iframe sizing. To verify how real mobile users will see the quiz:
 
 1. Open the published GitHub Pages URL directly in a browser:
-   `https://daechan-ot.github.io/communication_style_quiz/?embed=1`
+   `https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1`
 2. Open Chrome DevTools (F12 / Cmd+Option+I).
 3. Click the device toolbar icon (top-left of DevTools, phone/tablet icon).
 4. Pick "iPhone 14 Pro" or "Pixel 7" preset.
