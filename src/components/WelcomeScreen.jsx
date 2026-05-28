@@ -9,7 +9,7 @@ export default function WelcomeScreen({ onStart }) {
 
   return (
     <div className={`w-full animate-fade-in flex flex-col items-center ${embedded ? 'min-h-[80vh] justify-center' : ''}`}>
-      <img src={logo} alt="Smoothie King Logo" className="h-8 md:h-10 w-auto mb-8 animate-fade-in" />
+      <img src={logo} alt="Smoothie King Logo" className="w-24 h-auto mb-5 animate-fade-in" />
       <h1 className="font-heading text-2xl md:text-4xl font-extrabold text-quiz-primary mb-6 tracking-tight">
         Discover Your Communication Style
       </h1>
