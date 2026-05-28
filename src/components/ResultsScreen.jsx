@@ -92,7 +92,7 @@ export default function ResultsScreen({ resultsData, onRestart }) {
           {topStyles.map((style) => {
             const scored = allScores.find(s => s.id === style.id);
             return (
-              <div key={style.id} className="bg-white p-3 sm:p-6 rounded-2xl shadow-sm border border-orange-50 overflow-hidden">
+              <div key={style.id} className="bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-orange-50 overflow-hidden">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-1">
                   <h3 className="text-xl sm:text-2xl font-bold text-quiz-text flex items-start gap-3 min-w-0 break-words">
                     <span className="w-4 h-4 mt-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: style.color }}></span>
