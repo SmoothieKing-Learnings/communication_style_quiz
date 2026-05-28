@@ -2,10 +2,20 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Share2, RotateCcw, ChevronDown } from 'lucide-react';
 import { exportAndShare } from '../skills/exportAndShare';
 import { announceToScreenReader } from '../skills/a11yUtils';
+import OtherTypesModal from './OtherTypesModal';
+import { STYLES } from '../data/stylesData';
 
 export default function ResultsScreen({ resultsData, onRestart }) {
   const { allScores, topStyles } = resultsData;
   const [expandedStyleIds, setExpandedStyleIds] = useState({});
+
+  // "Explore the other types" modal state. Trigger button auto-hides when
+  // no "other" types remain (e.g. full tie across all styles).
+  const [otherTypesOpen, setOtherTypesOpen] = useState(false);
+  const otherTypesAvailable = useMemo(() => {
+    const topIds = new Set(topStyles.map(s => s.id));
+    return STYLES.some(s => !topIds.has(s.id));
+  }, [topStyles]);
 
   const toggleExpanded = (styleId) => {
     setExpandedStyleIds((prev) => ({ ...prev, [styleId]: !prev[styleId] }));
@@ -239,6 +249,7 @@ export default function ResultsScreen({ resultsData, onRestart }) {
             </div>
           ))}
         </div>
+
       </div>
 
       {/* ACTION BUTTONS (outside capture area) */}
@@ -259,6 +270,31 @@ export default function ResultsScreen({ resultsData, onRestart }) {
           <RotateCcw size={20} /> Retake Quiz
         </button>
       </div>
+
+      {/*
+        "Explore the other types →" footer link — quiet, low-priority
+        affordance, sits below the CTAs so it doesn't compete with the
+        in-card "Show full description" accordion for visual hierarchy.
+        Auto-hidden when no other types remain (rare full-tie edge case).
+      */}
+      {otherTypesAvailable && (
+        <button
+          type="button"
+          onClick={() => setOtherTypesOpen(true)}
+          className="mt-3 mx-auto text-xs font-medium text-quiz-text/60 hover:text-quiz-primary focus:outline-none focus:ring-2 focus:ring-quiz-primary/30 transition-colors rounded-md px-2 py-1"
+          aria-label="Explore the other communication types"
+        >
+          Explore the other types →
+        </button>
+      )}
+
+      {otherTypesOpen && (
+        <OtherTypesModal
+          allStyles={STYLES}
+          topStyles={topStyles}
+          onClose={() => setOtherTypesOpen(false)}
+        />
+      )}
     </div>
   );
 }

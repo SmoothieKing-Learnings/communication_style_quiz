@@ -20,7 +20,7 @@ export default function WelcomeScreen({ onStart }) {
         alt="Smoothie King Logo"
         className="w-24 h-auto mb-5 animate-welcome-logo"
       />
-      <h1 className="font-heading text-3xl md:text-5xl font-extrabold text-quiz-primary mb-4 tracking-tight animate-welcome-headline">
+      <h1 className="font-heading text-[36px] font-extrabold text-quiz-primary mb-4 tracking-tight animate-welcome-headline">
         Discover Your Communication Style
       </h1>
       <div
