@@ -4,6 +4,8 @@ The **SmoothieKing Learnings unified iframe contract**, shared across every expe
 
 > `https://smoothieking-learnings.github.io/communication_style_quiz/`
 
+> **In-depth Rise 360 walkthrough:** see [`../leadership_style_quiz/RISE360_INTEGRATION_GUIDE.md`](../leadership_style_quiz/RISE360_INTEGRATION_GUIDE.md) for the full host ↔ app integration story, scroll-trapping workarounds, and the three Code Block patterns (minimal, pointer-events bypass, app-themed overlay).
+
 ---
 
 ## 1. Universal URL parameters
@@ -16,53 +18,63 @@ The **SmoothieKing Learnings unified iframe contract**, shared across every expe
 
 ---
 
-## 2. Recommended iframe snippets
+## 2. Copy-paste-ready iframe snippets
 
-Paste into a Rise 360 **Embed block** (not the Custom Code Block — they're different) or any LMS that accepts iframe HTML.
+Each snippet below is self-contained — paste it directly into a Rise 360 block. Pick the variant that matches your hosting context. Default recommendation: **§2.2 — Origin-locked, fixed height**.
 
-### Recommended — single fixed height, compromise between mobile and desktop
+### 2.1 Minimal Embed block (no scroll-passthrough)
+
+Paste into a Rise 360 **Embed block** (not the Custom Code Block — they're different).
 
 ```html
 <iframe
   src="https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1"
   width="100%"
-  height="900"
+  height="780"
   style="border:0; display:block; width:100%;"
   scrolling="auto"
   title="Communication Style Quiz"
   allow="autoplay"></iframe>
 ```
 
-900px is the compromise. Tune it:
+**Why 780px?** It sits under the in-app `@media (max-height: 800px)` compressed-layout breakpoint, so content fits without forcing internal scroll. Tune up to 1300 if you prefer mobile fit over desktop chrome balance.
 
-- **700** → favors desktop (no blank space, but mobile content scrolls inside iframe)
-- **1300** → favors mobile (all content fits without internal scroll, but desktop shows blank space below)
-- **900** → middle ground
+### 2.2 Origin-locked, fixed height (recommended for live Rise lessons)
 
-### Dynamic height that adapts to real device width
+```html
+<iframe
+  src="https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1&parentOrigin=https%3A%2F%2Frise.articulate.com"
+  width="100%" height="780"
+  style="border:0; display:block; width:100%;" scrolling="auto"
+  title="Communication Style Quiz" allow="autoplay"></iframe>
+```
+
+The `parentOrigin` lock prevents `postMessage` from leaking to other embedders. Drop it for SCORM export where the host origin is unknown at build time.
+
+### 2.3 Dynamic height that adapts to real device width
 
 ```html
 <iframe
   src="https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1"
-  style="border:0; display:block; width:100%; height:max(700px, 1500px - 70vw);"
+  style="border:0; display:block; width:100%; height:max(640px, 1400px - 70vw);"
   scrolling="auto"
   title="Communication Style Quiz"
   allow="autoplay"></iframe>
 ```
 
-`height:max(700px, 1500px - 70vw)` means: at least 700px, and gets taller as the viewport gets narrower. On a real phone (~400px wide), iframe ≈ 1220px. On a real desktop (~1400px wide), iframe ≈ 700px.
+`height:max(640px, 1400px - 70vw)` means: at least 640px, and taller as the viewport gets narrower. On a real phone (~400px wide), iframe ≈ 1120px. On a real desktop (~1400px wide), iframe ≈ 640px.
 
 **Caveat:** does not respond to Rise's mobile preview pane (Rise's mobile preview is a visual clip, not a real viewport change). Only takes effect on actual devices.
 
-### Dual block — per-device visibility
+### 2.4 Dual block — per-device visibility
 
-If your Rise plan exposes "Hide on mobile" / "Hide on desktop" toggles on the Embed block (check the block's edit/pencil settings), this is the cleanest setup:
+If your Rise plan exposes "Hide on mobile" / "Hide on desktop" toggles on the Embed block (check the block's edit/pencil settings), this is the cleanest setup. Paste each block into its own Embed block and set the visibility toggle:
 
 ```html
 <!-- Desktop block (set "Hide on mobile" in Rise) -->
 <iframe
   src="https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1"
-  width="100%" height="700"
+  width="100%" height="640"
   style="border:0; display:block; width:100%;" scrolling="auto"
   title="Communication Style Quiz" allow="autoplay"></iframe>
 ```
@@ -71,20 +83,77 @@ If your Rise plan exposes "Hide on mobile" / "Hide on desktop" toggles on the Em
 <!-- Mobile block (set "Hide on desktop" in Rise) -->
 <iframe
   src="https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1"
-  width="100%" height="1300"
+  width="100%" height="1150"
   style="border:0; display:block; width:100%;" scrolling="auto"
   title="Communication Style Quiz" allow="autoplay"></iframe>
 ```
 
-### Origin-locked snippet (recommended for live Rise lessons)
+### 2.5 Code Block — click-to-engage overlay (scroll-passthrough)
+
+When you want scroll over the embed to flow into the Rise lesson, set `pointer-events: none` on the iframe and reveal an engagement gesture on top of it. Scroll never enters the iframe until the learner clicks the pill; click outside (or on results) returns to scroll-passthrough.
+
+**Paste into a Rise 360 Code Block** (not the Embed block — Code Block accepts `<style>` and `<script>`).
 
 ```html
-<iframe
-  src="https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1&parentOrigin=https%3A%2F%2Frise.articulate.com"
-  width="100%" height="900"
-  style="border:0; display:block; width:100%;" scrolling="auto"
-  title="Communication Style Quiz" allow="autoplay"></iframe>
+<style>
+  #app-wrap { position: relative; width: 100%; }
+  #app-wrap iframe {
+    display: block; width: 100%; height: 780px; border: 0;
+    pointer-events: none;
+    transition: filter 200ms;
+    filter: saturate(0.85);
+  }
+  #app-wrap.engaged iframe { pointer-events: auto; filter: none; }
+
+  #app-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: opacity 200ms;
+  }
+  #app-overlay::after {
+    content: '▶  Click to play';
+    background: #930018; color: #fff;
+    font-family: "DM Sans", system-ui, sans-serif; font-weight: 600; font-size: 15px;
+    padding: 12px 22px; border-radius: 999px;
+    box-shadow: 0 4px 14px rgba(147, 0, 24, 0.35);
+  }
+  #app-wrap.engaged #app-overlay { opacity: 0; pointer-events: none; }
+
+  @media (max-width: 520px) {
+    #app-wrap iframe { height: 90vh; max-height: 1150px; min-height: 600px; }
+  }
+</style>
+
+<div id="app-wrap">
+  <iframe id="app-iframe"
+    src="https://smoothieking-learnings.github.io/communication_style_quiz/?embed=1&parentOrigin=https%3A%2F%2Frise.articulate.com"
+    title="Communication Style Quiz" allow="autoplay" allowfullscreen></iframe>
+  <div id="app-overlay" role="button" aria-label="Click to start the Communication Style Quiz"></div>
+</div>
+
+<script>
+  (function () {
+    var wrap = document.getElementById('app-wrap');
+    var overlay = document.getElementById('app-overlay');
+    overlay.addEventListener('click', function () { wrap.classList.add('engaged'); });
+    document.addEventListener('click', function (e) {
+      if (!wrap.contains(e.target)) wrap.classList.remove('engaged');
+    });
+    window.addEventListener('message', function (e) {
+      var d = e.data;
+      if (d && typeof d === 'object' && d.type === 'communicationQuiz:results') {
+        wrap.classList.remove('engaged');
+      }
+    });
+  })();
+</script>
 ```
+
+### 2.6 Themed welcome overlay (no separate engagement pill)
+
+For the cleanest, most native-feeling embed: replicate the quiz's welcome card inside the Code Block, drop the iframe behind it with `pointer-events: none`, and post `communicationQuiz:start` when the learner clicks **Let's Blend!**. Pass `?autostart=1` so the iframe skips its own welcome the moment it becomes interactive.
+
+The full markup for this **Pattern C** is in section 5 of [`../leadership_style_quiz/RISE360_INTEGRATION_GUIDE.md`](../leadership_style_quiz/RISE360_INTEGRATION_GUIDE.md) — too long to inline here, but a copy-paste affair. Substitute `myApp` → `communicationQuiz` in the markup.
 
 ---
 
@@ -147,7 +216,7 @@ iframe.contentWindow.postMessage({ type: 'communicationQuiz:restart' }, '*')
 
 ## 4. Enabling Rise 360 completion
 
-The bridge already calls `emitComplete()` at the right terminal screen. To wire the lesson to actually mark complete:
+The bridge already calls `emitComplete()` on the results screen. To wire the lesson to actually mark complete:
 
 1. In the Rise Code Block settings panel, enable **Set completion requirements**.
 2. Paste this exact one-liner into the field (this is what Rise listens for):
@@ -156,24 +225,69 @@ The bridge already calls `emitComplete()` at the right terminal screen. To wire 
    window.parent.postMessage({ type: 'complete'}, '*')
    ```
 
-The completion field is just *registering* the bare `complete` message Rise should accept — the actual fire comes from the iframe. Idempotent: once the lesson is complete, repeat fires are ignored.
+The completion field registers the bare `complete` message Rise should accept — the actual fire comes from the iframe. Idempotent: once the lesson is complete, repeat fires are ignored.
 
 ---
 
-## 5. Common gotchas when pasting into Rise
+## 5. Keyboard shortcuts
+
+Useful for LMS-embedded scenarios where learners keyboard their way through:
+
+| Key | Action |
+| --- | --- |
+| `Tab` | Move focus through interactive elements |
+| `Shift` + `Tab` | Move focus backwards |
+| `Enter` / `Space` | Select the focused option, submit the focused button, or activate the focused link |
+
+All interactive elements have visible focus rings (`focus:ring-4 focus:ring-quiz-primary/30`) so the keyboard path is unambiguous.
+
+---
+
+## 6. CSP / framing requirements
+
+This project loads **Playfair Display** + **DM Sans** from Google Fonts at runtime. If the host page enforces a strict Content-Security-Policy, allow:
+
+```
+font-src  https://fonts.gstatic.com;
+style-src https://fonts.googleapis.com 'unsafe-inline';
+```
+
+If your hosting target sets `X-Frame-Options: DENY` or `Content-Security-Policy: frame-ancestors 'none'`, the iframe will refuse to load. Configure the host to allow framing from the parent's origin:
+
+```
+Content-Security-Policy: frame-ancestors https://rise.articulate.com;
+```
+
+GitHub Pages doesn't set restrictive `X-Frame-Options` headers, so the published `https://smoothieking-learnings.github.io/...` URL just works in iframes by default.
+
+---
+
+## 7. Common gotchas when pasting into Rise
 
 - **Use straight double quotes** (`"`) — not curly/smart quotes. Pasting from Word, Slack, or some chat clients can silently convert quotes and Rise will reject the iframe.
 - **No text between `<iframe>` and `</iframe>`** — Rise rejects iframe HTML with content between the tags.
-- **`<style>` tags may be stripped** — Rise's Embed block sometimes drops `<style>` blocks for security. Stick to inline `style` attributes on the iframe element.
-- **Wrapping `<div>` may be stripped** — same reason. Keep the iframe top-level when possible.
+- **`<style>` tags may be stripped** by the **Embed block** — Rise's Embed block sometimes drops `<style>` blocks for security. Use the **Code Block** for §2.5 / §2.6 patterns that need `<style>` and `<script>`.
+- **Wrapping `<div>` may be stripped** in the Embed block — keep the iframe top-level there. The Code Block keeps wrappers intact.
 
 ---
 
-## 6. Things that were tried and did NOT work
+## 8. Scroll trapping inside Rise
+
+The number-one frustration with Rise embeds is that scrolling while the cursor is over the iframe doesn't scroll the Rise lesson. Three options, in order of complexity:
+
+- **Plain Embed block (§2.1 / §2.2)** — accept that scroll is trapped while the cursor is over the iframe. Cheapest, fewest moving parts. Fine when the embed sits at the bottom of the lesson.
+- **Code Block + click-to-engage overlay (§2.5)** — scroll passes through until the learner clicks to engage. Reverts on results, so the learner can keep scrolling once they finish.
+- **Themed welcome overlay (§2.6)** — same scroll-passthrough as above, but the engagement gesture *looks* like the quiz's own welcome card. See [`RISE360_INTEGRATION_GUIDE.md`](../leadership_style_quiz/RISE360_INTEGRATION_GUIDE.md) §5 Pattern C for the full markup.
+
+The bridge emits `communicationQuiz:wheel { deltaY }` on every wheel event inside the iframe as a best-effort signal for non-Rise hosts that *can* briefly toggle `pointer-events: none` based on it.
+
+---
+
+## 9. Things that were tried and did NOT work — don't repeat these
 
 ### Vertical centering of content (`my-auto`)
 
-Idea: center content in iframe so empty cream looks intentional. Failed because flexbox `justify-center` cuts off the top of overflowing content when the iframe is shorter than the content.
+Idea: center content in iframe so empty cream looks intentional. Failed because flexbox `justify-center` cuts off the top of overflowing content when the iframe is shorter than the content. Made the Results screen worse, not better.
 
 ### Container queries (`cqw`) for responsive iframe height
 
@@ -185,25 +299,29 @@ The bridge emits `communicationQuiz:resize` with a `desiredHeight` recommendatio
 
 ### Auto-fitting iframe to content
 
-Iframes don't have a "size to content" mode. The `height` attribute is fixed unless dynamically resized via JS bridging.
+Iframes don't have a "size to content" mode. The `height` attribute is fixed unless dynamically resized via JS bridging — and Rise's bridging is locked down.
+
+### `scrolling="no"` to suppress internal scrollbars
+
+Deprecated attribute, no effect on wheel capture in modern browsers. Use the click-to-engage pattern in §2.5 instead.
 
 ---
 
-## 7. Fundamental Rise 360 constraints
+## 10. Fundamental Rise 360 constraints
 
 | Constraint | Implication |
 | --- | --- |
-| **Iframe height is one fixed value** | Cannot be different per device with a single iframe. |
-| **Rise mobile preview ≠ real mobile** | Mobile preview is a visual clip in a desktop browser. Responsive CSS won't change behavior between Rise's preview modes. |
+| **Iframe height is one fixed value** | Cannot be different per device with a single iframe. Use the dual-block pattern in §2.4 if your Rise plan exposes per-device visibility. |
+| **Rise mobile preview ≠ real mobile** | Mobile preview is a visual clip in a desktop browser. Responsive CSS won't change behavior between Rise's preview modes — only on real devices or DevTools (see §11). |
 | **Sandboxed download blocked** | `html2canvas` → file download silently fails inside Rise. The "Share Result" button works only when the quiz is loaded standalone (outside Rise). |
-| **No `<style>` blocks in Embed input** | Rise's Embed block accepts iframe HTML but may strip `<style>` tags or other extras. Stick to inline styles on the iframe element. |
+| **No `<style>` blocks in Embed input** | Rise's Embed block strips `<style>` tags. Use the **Code Block** for the §2.5 / §2.6 patterns. |
 | **Embed block has built-in padding** | Rise wraps every block in a styled container. Some padding is unavoidable around the iframe — check the block's Format menu (block padding S/M/L) to minimize. |
-| **Per-device block visibility** | Some Rise plans/block types let you show a block only on mobile or desktop. If available, this enables a dual-iframe pattern (separate mobile and desktop iframes with different heights). |
-| **CSP / framing** | If you host on a domain that emits `X-Frame-Options: DENY` or `frame-ancestors 'none'`, the iframe will refuse to load. GitHub Pages doesn't set these headers — it Just Works™. |
+| **Per-device block visibility** | Some Rise plans/block types let you show a block only on mobile or desktop. If available, the dual-iframe pattern (§2.4) is the cleanest sizing solution. |
+| **CSP / framing** | If you host on a domain that emits `X-Frame-Options: DENY` or `frame-ancestors 'none'`, the iframe will refuse to load. GitHub Pages doesn't set these headers. |
 
 ---
 
-## 8. How to verify mobile behavior properly
+## 11. How to verify mobile behavior properly
 
 Rise's mobile preview pane is misleading for iframe sizing. To verify how real mobile users will see the experience:
 
@@ -218,7 +336,7 @@ This is the only reliable way to verify mobile responsiveness without an actual 
 
 ---
 
-## 9. Adapting the bridge for a new project
+## 12. Adapting the bridge for a new project
 
 The bridge is one file. Drop it into `src/utils/iframeBridge.js` and change exactly four lines at the top:
 
@@ -250,7 +368,7 @@ You get `?embed=1`, `?autostart=1`, `?parentOrigin=`, the namespaced `postMessag
 
 ---
 
-## 10. File map for future changes
+## 13. File map for future changes
 
 | File | Purpose |
 | --- | --- |
@@ -261,15 +379,20 @@ You get `?embed=1`, `?autostart=1`, `?parentOrigin=`, the namespaced `postMessag
 | `src/data/questionsData.js` | Question copy and option `styleId` mapping |
 | `src/data/stylesData.js` | Style definitions (name, focus, strengths, blind spots, color) |
 | `src/skills/calculateResults.js` | Tally logic (framework-agnostic, easy to port) |
+| `../leadership_style_quiz/RISE360_INTEGRATION_GUIDE.md` | The canonical Rise 360 integration walkthrough across the repo |
 
 ---
 
-## 11. Open trade-off
+## 14. Open trade-off
 
 Because iframe height is a single fixed number set in Rise:
 
-- **Tall iframe (~1300px)** → mobile content fits without internal scroll, desktop has visible blank space below content.
-- **Short iframe (~700px)** → desktop has no blank, mobile content scrolls inside the iframe (worse UX on phones).
-- **Compromise (~900px)** → some of both. Current recommendation.
+- **Tall iframe (~1150px)** → mobile content fits without internal scroll, desktop has visible blank space below content.
+- **Short iframe (~640px)** → desktop has no blank, mobile content scrolls inside the iframe (worse UX on phones).
+- **Compromise (~780px)** → matches the in-app `max-height: 800px` compressed-layout breakpoint. Current recommendation.
 
-If Rise ever exposes per-device block visibility for Embed blocks, the cleanest fix is two embed blocks (one per device) with different heights — see "Dual block" in §2 above.
+If Rise exposes per-device block visibility for your Embed blocks, the cleanest fix is two embed blocks (one per device) with different heights — see §2.4.
+
+---
+
+*Last unified: 2026-06-05. Sibling docs: [appreciation_style_quiz](../appreciation_style_quiz/IFRAME_EMBED.md) · [leadership_style_quiz](../leadership_style_quiz/IFRAME_EMBED.md) · [leadership_thermostat_game](../leadership_thermostat_game/IFRAME_EMBED.md).*
