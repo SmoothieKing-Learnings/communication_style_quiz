@@ -48,58 +48,13 @@ export default function ResultsScreen({ resultsData, onRestart }) {
           Your Results
         </h2>
 
-        {/*
-          PROPORTIONAL STACKED BAR
-          One horizontal bar = 100% of answers, divided into colored segments
-          per style. Widths come from `flex: <percentage>` so segments
-          auto-size relative to each other. Zero-score styles are dropped
-          here (the legend below still lists them); the bar itself only
-          shows segments the user actually scored on.
-          minWidth: 4px keeps very small (1–3%) segments visible as a thin
-          sliver instead of collapsing to nothing. Native `title` gives a
-          desktop hover tooltip; the legend covers the same info on mobile.
-        */}
-        <div
-          className="w-full h-8 md:h-10 mt-4 flex rounded-full overflow-hidden shadow-sm"
-          role="img"
-          aria-label={`Score breakdown. ${chartData.map(s => `${s.subtitle} ${s.percentage} percent`).join(', ')}.`}
-        >
-          {chartData.filter(s => s.percentage > 0).map((s) => (
-            <div
-              key={s.name}
-              className="h-full"
-              style={{
-                flex: s.percentage,
-                backgroundColor: s.color,
-                minWidth: '4px'
-              }}
-              title={`${s.subtitle}: ${s.percentage}% (${s.score}/${s.maxPossible} pts)`}
-            />
-          ))}
-        </div>
-
-        {/* LEGEND — color swatch + subtitle + percentage, horizontal wrap */}
-        <div className="w-full flex flex-wrap justify-center gap-x-3 gap-y-1.5 mt-2 mb-8 text-[9px] sm:text-[10px]">
-          {chartData.map((s) => (
-            <div key={s.name} className="flex items-center gap-1.5">
-              <span
-                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                style={{ backgroundColor: s.color }}
-                aria-hidden="true"
-              />
-              <span className="font-semibold text-quiz-text">{s.subtitle}</span>
-              <span className="text-quiz-text/60">{s.percentage}%</span>
-            </div>
-          ))}
-        </div>
-
-        {/* PRIMARY RESULT — H1 now sits right above the detail card(s) */}
+        {/* PRIMARY RESULT — H1 sits right above the detail tile(s) */}
         {isTie ? (
-          <h1 className="font-heading text-3xl md:text-4xl font-black text-quiz-text mb-2 text-center">
+          <h1 className="font-heading text-3xl md:text-4xl font-black text-quiz-text mt-4 mb-2 text-center">
             You are a Hybrid Communicator
           </h1>
         ) : (
-          <h1 className="font-heading text-3xl md:text-5xl font-black text-quiz-text mb-2 text-center">
+          <h1 className="font-heading text-3xl md:text-5xl font-black text-quiz-text mt-4 mb-2 text-center">
             {topStyles[0].name}
           </h1>
         )}
@@ -113,23 +68,20 @@ export default function ResultsScreen({ resultsData, onRestart }) {
           ))}
         </div>
 
-        {/* STYLE DETAIL CARD(S) — title / subtitle / score badge removed.
-            In a tie, the 4px colored top border ties each card visually
-            back to its color in the legend and its hashtag above. */}
-        <div className="w-full flex flex-col gap-3 text-left">
+        {/* STYLE DETAIL TILE(S) — chrome stripped (no bg, no rounded corners,
+            no colored top border). Each tile is a flat content section.
+            Strengths and Blind Spots stack vertically. In a tie, multiple
+            tiles are separated by gap-8 vertical breathing room. */}
+        <div className="w-full flex flex-col gap-8 text-left">
           {topStyles.map((style) => (
-            <div
-              key={style.id}
-              className="bg-white p-3 rounded-2xl shadow-sm border border-orange-100 border-t-4 overflow-hidden"
-              style={{ borderTopColor: style.color }}
-            >
-              <div className="mb-4 mt-1 text-quiz-text/90">
+            <div key={style.id}>
+              <div className="mb-4 text-quiz-text/90">
                 <strong className="text-quiz-primary">Priority:</strong> {style.priority}
                 <span className="mx-1 text-quiz-text/40">|</span>
                 <strong className="text-quiz-primary">Mantra:</strong> {style.mantra}
               </div>
 
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-3">
                 <div className="bg-green-50/50 p-3 rounded-xl border border-green-100">
                   <strong className="block text-green-800 mb-2 text-xs uppercase">Strengths</strong>
                   <ul className="list-disc pl-5 text-xs text-quiz-text/80 space-y-1">
@@ -167,7 +119,7 @@ export default function ResultsScreen({ resultsData, onRestart }) {
                     </button>
 
                     {isOpen && (
-                      <div id={panelId} className="mt-4 grid md:grid-cols-2 gap-4 animate-fade-in">
+                      <div id={panelId} className="mt-4 flex flex-col gap-3 animate-fade-in">
                         <div className="bg-green-50/50 p-3 rounded-xl border border-green-100">
                           <strong className="block text-green-800 mb-3 text-xs uppercase">Where You Might Shine</strong>
                           <ul className="space-y-3 text-xs text-quiz-text/85">
@@ -196,6 +148,50 @@ export default function ResultsScreen({ resultsData, onRestart }) {
                   </div>
                 );
               })()}
+            </div>
+          ))}
+        </div>
+
+        {/*
+          PROPORTIONAL STACKED BAR + LEGEND — moved below the detail tile(s).
+          One horizontal bar = 100% of answers, divided into colored segments
+          per style; widths come from `flex: <percentage>` so segments
+          auto-size relative to each other. Zero-score styles are dropped
+          from the bar (the legend still lists them).
+          minWidth: 4px keeps very small (1–3%) segments visible as a sliver
+          instead of collapsing to nothing. Native `title` gives a desktop
+          hover tooltip; the legend covers the same info on mobile.
+        */}
+        <div
+          className="w-full h-8 md:h-10 mt-8 flex rounded-full overflow-hidden shadow-sm"
+          role="img"
+          aria-label={`Score breakdown. ${chartData.map(s => `${s.subtitle} ${s.percentage} percent`).join(', ')}.`}
+        >
+          {chartData.filter(s => s.percentage > 0).map((s) => (
+            <div
+              key={s.name}
+              className="h-full"
+              style={{
+                flex: s.percentage,
+                backgroundColor: s.color,
+                minWidth: '4px'
+              }}
+              title={`${s.subtitle}: ${s.percentage}% (${s.score}/${s.maxPossible} pts)`}
+            />
+          ))}
+        </div>
+
+        {/* LEGEND — color swatch + subtitle + percentage, horizontal wrap */}
+        <div className="w-full flex flex-wrap justify-center gap-x-3 gap-y-1.5 mt-2 text-[9px] sm:text-[10px]">
+          {chartData.map((s) => (
+            <div key={s.name} className="flex items-center gap-1.5">
+              <span
+                className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                style={{ backgroundColor: s.color }}
+                aria-hidden="true"
+              />
+              <span className="font-semibold text-quiz-text">{s.subtitle}</span>
+              <span className="text-quiz-text/60">{s.percentage}%</span>
             </div>
           ))}
         </div>
