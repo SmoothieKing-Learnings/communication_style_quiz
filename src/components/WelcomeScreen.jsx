@@ -31,13 +31,21 @@ export default function WelcomeScreen({ onStart }) {
         Take this short assessment to uncover your primary style, strengths, and blind spots as a communicator.
       </p>
 
-      <button
-        onClick={onStart}
-        className="min-h-[44px] min-w-[44px] px-8 py-4 bg-quiz-primary text-[#FFF9EF] rounded-xl font-bold text-base hover:bg-[#7a0014] focus:outline-none focus:ring-4 focus:ring-quiz-primary/50 transition-all shadow-lg hover:shadow-xl active:scale-95 animate-welcome-cta"
-        aria-label="Start the Communication Style Quiz"
-      >
-        Let's Blend!
-      </button>
+      {/*
+        Element 5 — CTA block. The entrance animation lives on a wrapper div
+        (motion.div in the spec) so the button itself keeps a clean
+        transition-all for hover / focus / active without colliding with the
+        rise-in keyframe.
+      */}
+      <div className="animate-welcome-cta">
+        <button
+          onClick={onStart}
+          className="min-h-[44px] min-w-[44px] px-8 py-4 bg-quiz-primary text-[#FFF9EF] rounded-xl font-bold text-base hover:bg-[#7a0014] focus:outline-none focus:ring-4 focus:ring-quiz-primary/50 transition-all shadow-lg hover:shadow-xl active:scale-95"
+          aria-label="Start the Communication Style Quiz"
+        >
+          Let's Blend!
+        </button>
+      </div>
     </div>
   );
 }
