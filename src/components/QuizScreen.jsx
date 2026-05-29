@@ -70,14 +70,18 @@ export default function QuizScreen({ onComplete }) {
     }
   };
 
-  // h-[680px] locks the QuizScreen to a fixed 680px tall card across every
-  // question. The options container takes flex-1 and each option inside also
-  // takes flex-1, so however many options a question has, they share the
-  // leftover vertical space between the question header and the footer
-  // evenly. Text inside each option is vertically centered so the card looks
-  // balanced and the footer never jumps between questions.
+  // h-[640px] locks the QuizScreen to a fixed 640px tall card across every
+  // question. Ceiling sized to fit inside Articulate Rise 360's default
+  // 750px Code Block height cap (640 + 16px outer page padding from
+  // LayoutWrapper embed-mode p-2 = 656px iframe content, leaving safe
+  // headroom for Articulate's internal Code Block chrome). The options
+  // container takes flex-1 and each option inside also takes flex-1, so
+  // however many options a question has, they share the leftover vertical
+  // space between the question header and the footer evenly. Text inside
+  // each option is vertically centered so the card looks balanced and the
+  // footer never jumps between questions.
   return (
-    <div className="w-full h-[680px] flex flex-col items-stretch text-left animate-fade-in py-2">
+    <div className="w-full h-[640px] flex flex-col items-stretch text-left animate-fade-in py-2">
       <ProgressBar current={currentQuestionIndex + 1} total={shuffledQuestions.length} />
 
       {/*
