@@ -78,7 +78,7 @@ export const STYLES = [
     blindSpotsDetailed: [
       {
         title: 'Burying the lead',
-        description: 'Sometimes the hype hides the instruction. A team member might leave a huddle feeling pumped but have no idea which prep task they\'re actually supposed to start.'
+        description: 'Sometimes the hype hides the instruction. A team member might leave a shift huddle feeling pumped but have no idea which prep task they\'re actually supposed to start.'
       },
       {
         title: 'Dismissing the details',

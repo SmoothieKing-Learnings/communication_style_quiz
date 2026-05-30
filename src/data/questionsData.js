@@ -18,12 +18,12 @@ export const QUESTIONS = [
   },
   {
     id: 'q2',
-    text: 'A team member isn\'t offering enhancers. How do you coach them?',
+    text: 'A team member isn\'t offering E&Es. How do you coach them?',
     options: [
-      { id: 'q2-direct',        text: '"Use this line: \'Would you like to add an energy boost or extra protein?\' Try it for the next ten guests."', styleId: 'direct' },
-      { id: 'q2-enthusiastic',  text: '"You\'re great with guests! Now, tell them why you love adding a multivitamin to your own smoothie."', styleId: 'enthusiastic' },
+      { id: 'q2-direct',        text: '"Use this line: \'Would you like to customize your smoothie with an energy boost or extra protein?\' Try it for the next ten guests."', styleId: 'direct' },
+      { id: 'q2-enthusiastic',  text: '"You\'re great with guests! Now, tell them why you love customizing your own smoothie with a multivitamin."', styleId: 'enthusiastic' },
       { id: 'q2-collaborative', text: '"It feels a bit awkward to ask, doesn\'t it? Let\'s find a way to say it that feels like you."', styleId: 'collaborative' },
-      { id: 'q2-precise',       text: '"If we add an enhancer to 10% more orders, our store hits its goal."', styleId: 'precise' }
+      { id: 'q2-precise',       text: '"If we add an E&E to 10 more orders a day, our team hits its goal."', styleId: 'precise' }
     ]
   },
   {
@@ -51,7 +51,7 @@ export const QUESTIONS = [
     text: 'A team member is fast but isn\'t greeting guests warmly. What\'s your move?',
     options: [
       { id: 'q5-direct',        text: '"Your speed is great, but you need to greet guests as soon as they walk in."', styleId: 'direct' },
-      { id: 'q5-enthusiastic',  text: '"You\'re a machine on blenders! Now, let\'s bring that same energy to the front door."', styleId: 'enthusiastic' },
+      { id: 'q5-enthusiastic',  text: '"You\'re a machine behind the counter! Now, let\'s bring that same energy to the front door."', styleId: 'enthusiastic' },
       { id: 'q5-collaborative', text: '"I love how reliable you are. How can we make the greeting feel more natural for you?"', styleId: 'collaborative' },
       { id: 'q5-precise',       text: '"Surveys show the greeting is our most important metric. Let\'s make sure we check that box."', styleId: 'precise' }
     ]
@@ -60,8 +60,8 @@ export const QUESTIONS = [
     id: 'q6',
     text: 'A team member who is usually on time arrives 15 minutes late. What sounds most like you?',
     options: [
-      { id: 'q6-direct',        text: '"You\'re late. Clock in and get on blenders — we\'ll talk about the schedule later."', styleId: 'direct' },
-      { id: 'q6-enthusiastic',  text: '"Glad you made it! We need your energy on the line — grab your apron and jump in."', styleId: 'enthusiastic' },
+      { id: 'q6-direct',        text: '"You\'re late. Clock in and prep a box of bananas. We\'ll talk about the schedule later."', styleId: 'direct' },
+      { id: 'q6-enthusiastic',  text: '"Glad you made it! We need your energy on the line, grab your apron and jump in."', styleId: 'enthusiastic' },
       { id: 'q6-collaborative', text: '"Glad you\'re safe. Is everything okay? Take a second to breathe, then join us."', styleId: 'collaborative' },
       { id: 'q6-precise',       text: '"You\'re 15 minutes behind. Note the correct time on the log before you wash up."', styleId: 'precise' }
     ]
