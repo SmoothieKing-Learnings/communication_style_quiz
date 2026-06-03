@@ -19,7 +19,7 @@ export const STYLES = [
     subtitle: 'Direct',
     priority: 'efficiency',
     mantra: 'clear is efficient',
-    summary: 'You talk to move the shift forward. When tickets are flying and the lobby is full, your team trusts the fast, clear calls that come from you. You skip the warm-up and go straight to the decision — clarity is your kindness.',
+    summary: 'You talk to move the shift forward. When tickets are flying and the lobby is full, your team trusts the fast, clear calls that come from you. You skip the warm-up and go straight to the decision. Clarity is your kindness.',
     strengths: ['The anchor in the rush', 'Decisive problem solving', 'Protecting labor and speed'],
     blindSpots: ['The robot vibe', 'Leaving out the why', 'The accidental snap'],
     strengthsDetailed: [
@@ -97,7 +97,7 @@ export const STYLES = [
     subtitle: 'Collaborative',
     priority: 'connection',
     mantra: 'lead by listening',
-    summary: 'You talk by listening first. Team members come to you when something is off because they know you will hear them out. You build loyalty by treating every conversation as a two-way street — connection before correction.',
+    summary: 'You talk by listening first. Team members come to you when something is off because they know you will hear them out. You build loyalty by treating every conversation as a two-way street. Connection before correction.',
     strengths: ['The safe harbor', 'De-escalating conflict', 'Building loyalty'],
     blindSpots: ['The soft signal', 'Avoiding hard conversations', 'Slowing down the rush'],
     strengthsDetailed: [
@@ -136,7 +136,7 @@ export const STYLES = [
     subtitle: 'Precise',
     priority: 'accuracy',
     mantra: 'the details matter',
-    summary: 'You speak in specifics. You catch the small thing that everyone else missed — the prep date, the temperature, the exact step that got skipped. Your team trusts that what you say is right, and your guests get the drink exactly as promised.',
+    summary: 'You speak in specifics. You catch the small thing that everyone else missed: the prep date, the temperature, the exact step that got skipped. Your team trusts that what you say is right, and your guests get the drink exactly as promised.',
     strengths: ['The guardian of the standard', 'Training mastery', 'Integrity of the blend'],
     blindSpots: ['The over-communication trap', 'The nagging label', 'Telling over showing'],
     strengthsDetailed: [

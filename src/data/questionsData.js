@@ -13,7 +13,7 @@ export const QUESTIONS = [
       { id: 'q1-direct',        text: '"Wrong base. Remake it with almond milk and keep the line moving."', styleId: 'direct' },
       { id: 'q1-enthusiastic',  text: '"No worries! Let\'s knock out a perfect remake and get it to them with a smile."', styleId: 'enthusiastic' },
       { id: 'q1-collaborative', text: '"Rough one, I\'ve been there. What can I do to help you get the right one out?"', styleId: 'collaborative' },
-      { id: 'q1-precise',       text: '"Double check the ticket — they swapped almond milk. Read every line carefully for the remake."', styleId: 'precise' }
+      { id: 'q1-precise',       text: '"Double check the ticket, they swapped almond milk. Read every line carefully for the remake."', styleId: 'precise' }
     ]
   },
   {
@@ -30,9 +30,9 @@ export const QUESTIONS = [
     id: 'q3',
     text: 'It\'s shift change. How do you brief the incoming lead?',
     options: [
-      { id: 'q3-direct',        text: '"Lobby is clean and prep is caught up. John comes in at 6. You\'re set."', styleId: 'direct' },
-      { id: 'q3-enthusiastic',  text: '"Team is in a great groove! Awesome energy at the window — just keep that momentum going."', styleId: 'enthusiastic' },
-      { id: 'q3-collaborative', text: '"Team\'s good, but Sarah had a tough rush — check on her. Anything you need from me?"', styleId: 'collaborative' },
+      { id: 'q3-direct',        text: '"Lobby is clean, and prep is caught up, John comes in at 6. You\'re set."', styleId: 'direct' },
+      { id: 'q3-enthusiastic',  text: '"Team is in a great groove! Awesome energy at the window, just keep that momentum going."', styleId: 'enthusiastic' },
+      { id: 'q3-collaborative', text: '"Team\'s good, but Sarah had a tough rush, check on her. Anything you need from me?"', styleId: 'collaborative' },
       { id: 'q3-precise',       text: '"Strawberry inventory is low and the walk-in is organized by date. Waste is logged in the book."', styleId: 'precise' }
     ]
   },
@@ -100,10 +100,10 @@ export const QUESTIONS = [
     id: 'q10',
     text: 'In my store, the most important part of a conversation is…',
     options: [
-      { id: 'q10-direct',        text: 'Clarity — does everyone know exactly what to do next?', styleId: 'direct' },
-      { id: 'q10-enthusiastic',  text: 'Engagement — is everyone fired up to do their best?', styleId: 'enthusiastic' },
-      { id: 'q10-collaborative', text: 'Connection — does the team feel like we\'re in this together?', styleId: 'collaborative' },
-      { id: 'q10-precise',       text: 'Accuracy — are we following the Smoothie King standards perfectly?', styleId: 'precise' }
+      { id: 'q10-direct',        text: 'Clarity: does everyone know exactly what to do next?', styleId: 'direct' },
+      { id: 'q10-enthusiastic',  text: 'Engagement: is everyone fired up to do their best?', styleId: 'enthusiastic' },
+      { id: 'q10-collaborative', text: 'Connection: does the team feel like we\'re in this together?', styleId: 'collaborative' },
+      { id: 'q10-precise',       text: 'Accuracy: are we following the Smoothie King standards perfectly?', styleId: 'precise' }
     ]
   }
 ];

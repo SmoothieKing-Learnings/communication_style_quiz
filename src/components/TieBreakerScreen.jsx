@@ -103,7 +103,7 @@ export default function TieBreakerScreen({
               {attemptIdx === 0 ? "It's a tie!" : "Still a tie!"}
             </h2>
             <p className="text-sm text-quiz-text/80 leading-relaxed mb-6">
-              Your top styles are equally weighted. Answer one more question — with just the tied options — and we'll lock in your primary style.
+              Your top styles are equally weighted. Answer one more question, with just the tied options, and we'll lock in your primary style.
             </p>
             <button
               onClick={handleContinue}
