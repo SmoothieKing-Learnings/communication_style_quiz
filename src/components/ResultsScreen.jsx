@@ -105,11 +105,11 @@ export default function ResultsScreen({ resultsData, onRestart }) {
 
         {/* PRIMARY RESULT — H1 sits right above the detail tile(s) */}
         {isTie ? (
-          <h1 className="font-heading text-xs font-black text-quiz-text mt-6 mb-2 text-center">
+          <h1 className="font-heading text-xs font-bold text-quiz-text mt-6 mb-2 text-center">
             You are a Hybrid Communicator
           </h1>
         ) : (
-          <h1 className="font-heading text-3xl font-black text-quiz-text mt-6 mb-2 text-center">
+          <h1 className="font-heading text-3xl font-bold text-quiz-text mt-6 mb-2 text-center">
             {topStyles[0].name}
           </h1>
         )}
@@ -121,7 +121,7 @@ export default function ResultsScreen({ resultsData, onRestart }) {
         <div className="w-full flex flex-col gap-8 text-left">
           {topStyles.map((style) => (
             <div key={style.id}>
-              <div className="mb-4 text-xs text-quiz-text/80 text-center">
+              <div className="mb-4 text-xs text-quiz-text text-center">
                 <strong className="text-quiz-text">Priority:</strong> {style.priority}
                 <span className="mx-1 text-quiz-text/40">|</span>
                 <strong className="text-quiz-text">Mantra:</strong> {style.mantra}
@@ -156,13 +156,13 @@ export default function ResultsScreen({ resultsData, onRestart }) {
                   <div className="flex flex-col gap-3">
                     <div className="flex gap-3">
                       <strong className="w-28 flex-shrink-0 text-base uppercase text-green-800">Strengths</strong>
-                      <ul className="list-disc pl-5 text-xs text-quiz-text/80 space-y-1 flex-1">
+                      <ul className="list-disc pl-5 text-xs text-quiz-text space-y-1 flex-1">
                         {style.strengths.map((str, i) => <li key={i}>{str}</li>)}
                       </ul>
                     </div>
                     <div className="flex gap-3">
                       <strong className="w-28 flex-shrink-0 text-base uppercase text-quiz-primary">Blind Spots</strong>
-                      <ul className="list-disc pl-5 text-xs text-quiz-text/80 space-y-1 flex-1">
+                      <ul className="list-disc pl-5 text-xs text-quiz-text space-y-1 flex-1">
                         {style.blindSpots.map((bs, i) => <li key={i}>{bs}</li>)}
                       </ul>
                     </div>
@@ -220,7 +220,7 @@ export default function ResultsScreen({ resultsData, onRestart }) {
                       <div className="mt-4 flex flex-col gap-3">
                         <div className="p-3">
                           <strong className="block text-green-800 mb-3 text-base uppercase">Where You Might Shine</strong>
-                          <ul className="space-y-3 text-xs text-quiz-text/80">
+                          <ul className="space-y-3 text-xs text-quiz-text">
                             {style.strengthsDetailed.map((item, i) => (
                               <li key={i}>
                                 <p className="font-bold text-quiz-text mb-1">{item.title}</p>
@@ -232,7 +232,7 @@ export default function ResultsScreen({ resultsData, onRestart }) {
 
                         <div className="p-3">
                           <strong className="block text-quiz-primary mb-3 text-base uppercase">Where You Might Struggle</strong>
-                          <ul className="space-y-3 text-xs text-quiz-text/80">
+                          <ul className="space-y-3 text-xs text-quiz-text">
                             {style.blindSpotsDetailed.map((item, i) => (
                               <li key={i}>
                                 <p className="font-bold text-quiz-text mb-1">{item.title}</p>
