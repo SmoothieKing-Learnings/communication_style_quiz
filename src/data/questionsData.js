@@ -10,7 +10,7 @@ export const QUESTIONS = [
     id: 'q1',
     text: 'A team member used the wrong milk in a smoothie. What sounds most like you?',
     options: [
-      { id: 'q1-direct',        text: '"Wrong base. Remake it with almond milk and keep the line moving."', styleId: 'direct' },
+      { id: 'q1-direct',        text: '"Wrong item. Remake it with almond milk and keep the line moving."', styleId: 'direct' },
       { id: 'q1-enthusiastic',  text: '"No worries! Let\'s knock out a perfect remake and get it to them with a smile."', styleId: 'enthusiastic' },
       { id: 'q1-collaborative', text: '"Rough one, I\'ve been there. What can I do to help you get the right one out?"', styleId: 'collaborative' },
       { id: 'q1-precise',       text: '"Double check the ticket, they swapped almond milk. Read every line carefully for the remake."', styleId: 'precise' }
@@ -40,7 +40,7 @@ export const QUESTIONS = [
     id: 'q4',
     text: 'A new seasonal smoothie starts today. What sounds most like you?',
     options: [
-      { id: 'q4-direct',        text: '"New smoothie today. Keep the recipe cards up so we can keep the line moving."', styleId: 'direct' },
+      { id: 'q4-direct',        text: '"New smoothie today. Keep the recipe chits up so we can keep the line moving."', styleId: 'direct' },
       { id: 'q4-enthusiastic',  text: '"This flavor is a game-changer! Taste it so you can get the guests hyped about it."', styleId: 'enthusiastic' },
       { id: 'q4-collaborative', text: '"We have a new launch. I want to hear what you guys think of the flavor profile."', styleId: 'collaborative' },
       { id: 'q4-precise',       text: '"New smoothie today. The recipe is a little tricky, so double-check your measurements."', styleId: 'precise' }
